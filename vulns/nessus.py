@@ -6,6 +6,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class NESSUS_API(object):
+
+
 	def __init__(self, host='localhost', port=8834, username=None, password=None):
 		
 		self.username = username
@@ -34,6 +36,7 @@ class NESSUS_API(object):
 			raise Exeception("[-] Cannot get login token")
 			exit(1)
 
+
 	def login(self):
 		if self.username is None or self.password is None:
 			raise Exeception("[-] No username or password")
@@ -42,9 +45,20 @@ class NESSUS_API(object):
 			self.headers ["X-Cookie"] = "token={}".format(self.token)
 
 
-	def get_folders(self):
+	def get_session(self):
 		url = self.base_url + "/session"	
 		resp = self.session.get(url, headers=self.headers)	
-		print resp.text
+		return resp.text
 
 
+
+	def get_folders(self):
+		url = self.base_url + "/folders"	
+		resp = self.session.get(url, headers=self.headers)	
+		return resp.text
+
+
+	def get_scans(self):
+		url = self.base_url + "/scans"	
+		resp = self.session.get(url, headers=self.headers)	
+		return resp.text	
